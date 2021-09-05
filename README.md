@@ -1,7 +1,10 @@
 # Ideaias de Futuro using Golang
 
-[![codecov](https://codecov.io/gh/julioc98/ideiasdefuturo/branch/master/graph/badge.svg?token=M79ED7IU7W)](https://codecov.io/gh/julioc98/ideiasdefuturo)
 [![Go Report Card](https://goreportcard.com/badge/github.com/julioc98/ideiasdefuturo)](https://goreportcard.com/report/github.com/julioc98/ideiasdefuturo)
+[![codecov](https://codecov.io/gh/julioc98/ideiasdefuturo/branch/master/graph/badge.svg?token=M79ED7IU7W)](https://codecov.io/gh/julioc98/ideiasdefuturo)
+[![test](https://github.com/julioc98/ideiasdefuturo/actions/workflows/test.yml/badge.svg)](https://github.com/julioc98/ideiasdefuturo/actions/workflows/test.yml)
+[![go-cleanarch](https://github.com/julioc98/ideiasdefuturo/actions/workflows/go-cleanarch.yml/badge.svg)](https://github.com/julioc98/ideiasdefuturo/actions/workflows/go-cleanarch.yml)
+[![golangci-lint](https://github.com/julioc98/ideiasdefuturo/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/julioc98/ideiasdefuturo/actions/workflows/golangci-lint.yml)
 
 ### Prerequisites
 
