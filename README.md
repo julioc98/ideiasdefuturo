@@ -1,7 +1,5 @@
 # Ideaias de Futuro using Golang
 
-[![codecov](https://codecov.io/gh/julioc98/ideiasdefuturo/branch/master/graph/badge.svg?token=M79ED7IU7W)](https://codecov.io/gh/julioc98/ideiasdefuturo)
-[![ci](https://github.com/julioc98/ideiasdefuturo/actions/workflows/ci.yml/badge.svg)](https://github.com/julioc98/ideiasdefuturo/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/julioc98/ideiasdefuturo)](https://goreportcard.com/report/github.com/julioc98/ideiasdefuturo)
 
 ### Prerequisites
