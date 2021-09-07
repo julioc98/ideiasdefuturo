@@ -1,6 +1,6 @@
 module github.com/julioc98/ideiasdefuturo
 
-go 1.13
+go 1.12
 
 require (
 	github.com/go-playground/validator/v10 v10.9.0
