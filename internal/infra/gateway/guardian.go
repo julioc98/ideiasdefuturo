@@ -100,8 +100,7 @@ func (am *Guardian) GenerateToken(w http.ResponseWriter, r *http.Request) {
 
 // AuthMiddleware Authentication middleware.
 func (am *Guardian) AuthMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	method, ok := am.whitelist[r.URL.Path]
-	if ok && r.Method == method {
+	if _, ok := am.whitelist[r.URL.Path]; ok {
 		next.ServeHTTP(w, r)
 
 		return

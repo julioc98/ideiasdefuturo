@@ -46,8 +46,8 @@ func main() {
 
 	r := mux.NewRouter()
 	n := negroni.New(
-		negroni.HandlerFunc(middleware.Cors),
 		negroni.NewLogger(),
+		negroni.HandlerFunc(middleware.Cors),
 		negroni.HandlerFunc(guard.AuthMiddleware),
 	)
 
