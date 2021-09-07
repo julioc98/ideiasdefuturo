@@ -13,9 +13,9 @@ func Cors(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type")
 
-	// if r.Method == "OPTIONS" {
-	// 	return
-	// }
+	if r.Method == "OPTIONS" {
+		return
+	}
 
 	next(w, r)
 }
