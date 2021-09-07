@@ -1,0 +1,16 @@
+{
+    "name": "ideiasdefuturo",
+    "description": "Plataforma Ideias de Futuro",
+    "keywords": [
+        "ideiasdefuturo",
+        "Go",
+        "Golang"
+    ],
+    "website": "http://github.com/julioc98/ideiasdefuturo",
+    "repository": "http://github.com/julioc98/ideiasdefuturo",
+    "addons": [
+        {
+          "plan": "heroku-postgresql:hobby-dev"
+        }
+      ]
+}

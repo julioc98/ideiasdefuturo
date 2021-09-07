@@ -1,4 +1,4 @@
-# Ideaias de Futuro using Golang
+# Ideias de Futuro using Golang
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/julioc98/ideiasdefuturo)](https://goreportcard.com/report/github.com/julioc98/ideiasdefuturo)
 [![codecov](https://codecov.io/gh/julioc98/ideiasdefuturo/branch/master/graph/badge.svg?token=M79ED7IU7W)](https://codecov.io/gh/julioc98/ideiasdefuturo)

@@ -14,16 +14,11 @@ import (
 	"github.com/julioc98/ideiasdefuturo/internal/infra/handler"
 	"github.com/julioc98/ideiasdefuturo/internal/infra/repository"
 	"github.com/julioc98/ideiasdefuturo/pkg/krypto"
+	"github.com/shaj13/go-guardian/v2/auth/strategies/jwt"
 	"github.com/urfave/negroni"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
-
-func handlerHi(w http.ResponseWriter, r *http.Request) {
-	msg := "Ola, Seja bem vindo a Ideias de Futuro API!!"
-	log.Println(msg)
-	_, _ = w.Write([]byte(msg))
-}
 
 func main() {
 	log.Println("Start Ideias de Futuro API")
@@ -39,13 +34,22 @@ func main() {
 
 	userUseCase := app.NewUserUseCase(userRepo, &krypto.Hash{}, &gateway.Auth{}, validator.New(), &gateway.Console{})
 
-	userHandler := handler.NewUserRestHandler(userUseCase)
+	// go-guardian
+	keeper := jwt.StaticSecret{
+		ID:        "secret-id",
+		Secret:    []byte("secret"),
+		Algorithm: jwt.HS256,
+	}
+
+	guard := gateway.NewGuardian(keeper, userUseCase, &krypto.Hash{})
 
 	r := mux.NewRouter()
 	n := negroni.New(
 		negroni.NewLogger(),
+		negroni.HandlerFunc(guard.AuthMiddleware),
 	)
 
+	userHandler := handler.NewUserRestHandler(userUseCase, guard)
 	userHandler.SetUserRoutes(r.PathPrefix("/users").Subrouter(), *n)
 
 	r.HandleFunc("/", handlerHi)
@@ -55,6 +59,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+}
+
+func handlerHi(w http.ResponseWriter, r *http.Request) {
+	msg := "Ola, Seja bem vindo a Ideias de Futuro API!!"
+	log.Println(msg)
+	_, _ = w.Write([]byte(msg))
 }
 
 func provideDB(dbURL string, migrate bool) (*gorm.DB, error) {

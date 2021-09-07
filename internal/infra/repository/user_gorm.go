@@ -27,3 +27,13 @@ func (g *UserGorm) Store(user *domain.User) (*domain.User, error) {
 
 	return user, nil
 }
+
+// FindOne user.
+func (g *UserGorm) FindOne(query *domain.User, args ...string) (*domain.User, error) {
+	e := &domain.User{}
+	if dbc := g.db.Where(query, args).First(e); dbc.Error != nil {
+		return nil, dbc.Error
+	}
+
+	return e, nil
+}

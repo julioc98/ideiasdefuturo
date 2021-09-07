@@ -34,6 +34,26 @@ func (m *Mockstorager) EXPECT() *MockstoragerMockRecorder {
 	return m.recorder
 }
 
+// FindOne mocks base method.
+func (m *Mockstorager) FindOne(query *domain.User, args ...string) (*domain.User, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{query}
+	for _, a := range args {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FindOne", varargs...)
+	ret0, _ := ret[0].(*domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOne indicates an expected call of FindOne.
+func (mr *MockstoragerMockRecorder) FindOne(query interface{}, args ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{query}, args...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOne", reflect.TypeOf((*Mockstorager)(nil).FindOne), varargs...)
+}
+
 // Store mocks base method.
 func (m *Mockstorager) Store(user *domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
@@ -70,6 +90,20 @@ func NewMockencrypter(ctrl *gomock.Controller) *Mockencrypter {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *Mockencrypter) EXPECT() *MockencrypterMockRecorder {
 	return m.recorder
+}
+
+// Compare mocks base method.
+func (m *Mockencrypter) Compare(hash, s string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Compare", hash, s)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Compare indicates an expected call of Compare.
+func (mr *MockencrypterMockRecorder) Compare(hash, s interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Compare", reflect.TypeOf((*Mockencrypter)(nil).Compare), hash, s)
 }
 
 // Encrypt mocks base method.

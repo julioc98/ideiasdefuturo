@@ -7,10 +7,12 @@ import (
 
 type storager interface {
 	Store(user *domain.User) (*domain.User, error)
+	FindOne(query *domain.User, args ...string) (*domain.User, error)
 }
 
 type encrypter interface {
 	Encrypt(s string) string
+	Compare(hash, s string) error
 }
 
 type authentifier interface {
@@ -47,8 +49,7 @@ func NewUserUseCase(s storager, e encrypter, a authentifier, v checker, m messen
 
 // SignUp create a new user.
 func (u *UserUseCase) SignUp(user *domain.User) (*domain.User, error) {
-	err := u.validate.Struct(user)
-	if err != nil {
+	if err := u.validate.Struct(user); err != nil {
 		return nil, ErrInvalid
 	}
 
@@ -70,4 +71,38 @@ func (u *UserUseCase) SignUp(user *domain.User) (*domain.User, error) {
 	}
 
 	return newUser, nil
+}
+
+// SignInWithEmailAndPassword login a user.
+func (u *UserUseCase) SignInWithEmailAndPassword(email, password string) (string, error) {
+	user, err := u.GetByEmail(email)
+	if err != nil {
+		return "", ErrInvalid
+	}
+
+	err = u.encrypter.Compare(user.Password, password)
+	if err != nil {
+		return "", ErrInvalid
+	}
+
+	token, err := u.auth.GenerateToken(user)
+	if err != nil {
+		return "", ErrOnGenerateToken
+	}
+
+	return token, nil
+}
+
+// GetByEmail Get User By Email.
+func (u *UserUseCase) GetByEmail(email string) (*domain.User, error) {
+	e := &domain.User{
+		Email: email,
+	}
+
+	user, err := u.repository.FindOne(e, "email")
+	if err != nil {
+		return nil, ErrInvalid
+	}
+
+	return user, nil
 }
