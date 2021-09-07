@@ -55,7 +55,7 @@ func main() {
 	r.HandleFunc("/", handlerHi)
 	http.Handle("/", r)
 
-	err = http.ListenAndServe(":5001", r)
+	err = http.ListenAndServe(":"+os.Getenv("PORT"), r)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

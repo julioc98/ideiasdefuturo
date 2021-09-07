@@ -15,5 +15,5 @@ help:
 .PHONY: run
 run: ## Run api
 	@echo "${ccy}running API...${ccnc}"
-	@DATABASE_URL="host=localhost port=5432 user=postgres dbname=postgres password=postgres sslmode=disable" go run cmd/api/main.go
+	@DATABASE_URL="host=localhost port=5432 user=postgres dbname=postgres password=postgres sslmode=disable" PORT=5001 go run cmd/api/main.go
 	@exit 0
