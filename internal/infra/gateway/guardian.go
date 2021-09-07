@@ -94,7 +94,7 @@ func (am *Guardian) GenerateToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	body := fmt.Sprintf(`{"token":"%s"}`, token)
+	body := fmt.Sprintf(`{"name":"%s","token":"%s"}`, u.GetUserName(), token)
 	_, _ = w.Write([]byte(body))
 }
 
