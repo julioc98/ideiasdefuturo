@@ -121,7 +121,6 @@ func (am *Guardian) AuthMiddleware(w http.ResponseWriter, r *http.Request, next 
 
 	log.Printf("User %s Authenticated\n", user.GetUserName())
 	r = auth.RequestWithUser(user, r)
-	log.Printf("User %s Authenticated OK\n", user.GetUserName())
 
 	next(w, r)
 }
