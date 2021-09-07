@@ -3,6 +3,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/julioc98/ideiasdefuturo/internal/domain"
@@ -32,6 +33,8 @@ func NewUserRestHandler(uc servicer, guard *gateway.Guardian) *UserRestHandler {
 
 // SignUp endpoint.
 func (uh *UserRestHandler) SignUp(w http.ResponseWriter, r *http.Request) {
+	log.Println("SignUp Method:", r.Method)
+
 	req := &domain.User{}
 
 	err := json.NewDecoder(r.Body).Decode(req)
