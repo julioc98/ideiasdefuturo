@@ -1,6 +1,6 @@
 module github.com/julioc98/ideiasdefuturo
 
-go 1.16
+go 1.13
 
 require (
 	github.com/go-playground/validator/v10 v10.9.0
@@ -11,7 +11,7 @@ require (
 	github.com/shaj13/libcache v1.0.0
 	github.com/stretchr/testify v1.7.0
 	github.com/urfave/negroni v1.0.0
-	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
+	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5
 	gorm.io/driver/postgres v1.1.0
-	gorm.io/gorm v1.21.13
+	gorm.io/gorm v1.21.14
 )
