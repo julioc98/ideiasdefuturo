@@ -73,26 +73,6 @@ func (u *UserUseCase) SignUp(user *domain.User) (*domain.User, error) {
 	return newUser, nil
 }
 
-// SignInWithEmailAndPassword login a user.
-func (u *UserUseCase) SignInWithEmailAndPassword(email, password string) (string, error) {
-	user, err := u.GetByEmail(email)
-	if err != nil {
-		return "", ErrInvalid
-	}
-
-	err = u.encrypter.Compare(user.Password, password)
-	if err != nil {
-		return "", ErrInvalid
-	}
-
-	token, err := u.auth.GenerateToken(user)
-	if err != nil {
-		return "", ErrOnGenerateToken
-	}
-
-	return token, nil
-}
-
 // GetByEmail Get User By Email.
 func (u *UserUseCase) GetByEmail(email string) (*domain.User, error) {
 	e := &domain.User{

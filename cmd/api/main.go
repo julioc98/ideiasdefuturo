@@ -14,6 +14,7 @@ import (
 	"github.com/julioc98/ideiasdefuturo/internal/infra/handler"
 	"github.com/julioc98/ideiasdefuturo/internal/infra/repository"
 	"github.com/julioc98/ideiasdefuturo/pkg/krypto"
+	"github.com/julioc98/ideiasdefuturo/pkg/middleware"
 	"github.com/shaj13/go-guardian/v2/auth/strategies/jwt"
 	"github.com/urfave/negroni"
 	"gorm.io/driver/postgres"
@@ -45,6 +46,7 @@ func main() {
 
 	r := mux.NewRouter()
 	n := negroni.New(
+		negroni.HandlerFunc(middleware.Cors),
 		negroni.NewLogger(),
 		negroni.HandlerFunc(guard.AuthMiddleware),
 	)

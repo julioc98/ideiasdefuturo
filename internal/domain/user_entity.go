@@ -9,7 +9,7 @@ import (
 type User struct {
 	ID          string     `gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()" json:"id"`
 	Name        string     `json:"name" validate:"required"`
-	Email       string     `gorm:"index;not null" validate:"required,email" json:"email"`
+	Email       string     `gorm:"uniqueIndex;not null" validate:"required,email" json:"email"`
 	Phone       string     `gorm:"index;not null" validate:"required" json:"whatsapp"`
 	Password    string     `gorm:"index;" validate:"required" json:"password,omitempty"`
 	Role        string     `gorm:"index;default:STUDENT" json:"role"`

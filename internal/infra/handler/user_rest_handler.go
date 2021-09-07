@@ -68,7 +68,10 @@ func (uh *UserRestHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 // SetUserRoutes mux configuration.
 func (uh *UserRestHandler) SetUserRoutes(r *mux.Router, n negroni.Negroni) {
-	r.HandleFunc("/signup", uh.SignUp).Methods(http.MethodPost, http.MethodOptions).Name("signup")
+	r.Handle("/signup", n.With(
+		negroni.WrapFunc(uh.SignUp),
+	)).Methods(http.MethodPost, http.MethodOptions).Name("signup")
+
 	r.Handle("/signin", n.With(
 		negroni.WrapFunc(uh.SignIn),
 	)).Methods(http.MethodPost, http.MethodOptions).Name("signin")
