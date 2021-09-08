@@ -84,8 +84,9 @@ func (am *Guardian) ValidateEmailAndPassword() basic.AuthenticateFunc {
 // GenerateToken return a JWT token.
 func (am *Guardian) GenerateToken(w http.ResponseWriter, r *http.Request) {
 	u := auth.User(r)
+	exp := jwt.SetExpDuration(time.Hour * 24)
 
-	token, err := jwt.IssueAccessToken(u, am.keeper)
+	token, err := jwt.IssueAccessToken(u, am.keeper, exp)
 	if err != nil {
 		log.Printf("Error %s\n", err.Error())
 

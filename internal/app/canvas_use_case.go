@@ -8,6 +8,7 @@ import (
 type canvasStorager interface {
 	Store(user *domain.Canvas) (*domain.Canvas, error)
 	FindOne(query *domain.Canvas, args ...string) (*domain.Canvas, error)
+	Find(query *domain.Canvas, args ...string) ([]domain.Canvas, error)
 }
 
 // CanvasUseCase Canvas auth uses case.
@@ -38,13 +39,13 @@ func (u *CanvasUseCase) Create(canvas *domain.Canvas) (*domain.Canvas, error) {
 	return newCanvas, nil
 }
 
-// GetByUserID Get a canvas By UserID.
-func (u *CanvasUseCase) GetByUserID(userID string) (*domain.Canvas, error) {
+// GetByUserID Get canvas By UserID.
+func (u *CanvasUseCase) GetByUserID(userID string) ([]domain.Canvas, error) {
 	e := &domain.Canvas{
 		UserID: userID,
 	}
 
-	canvas, err := u.repository.FindOne(e, "email")
+	canvas, err := u.repository.Find(e, "user_id")
 	if err != nil {
 		return nil, ErrInvalid
 	}

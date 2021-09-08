@@ -14,6 +14,7 @@ import (
 
 type canvasServicer interface {
 	Create(user *domain.Canvas) (*domain.Canvas, error)
+	GetByUserID(userID string) ([]domain.Canvas, error)
 }
 
 // CanvasRestHandler http handler.
@@ -62,9 +63,33 @@ func (uh *CanvasRestHandler) Create(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(res)
 }
 
+// Find endpoint.
+func (uh *CanvasRestHandler) Find(w http.ResponseWriter, r *http.Request) {
+	canvas, err := uh.usecase.GetByUserID(uh.guard.GetUserID(r))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	res, err := json.Marshal(canvas)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	_, _ = w.Write(res)
+}
+
 // SetCanvasRoutes mux configuration.
 func (uh *CanvasRestHandler) SetCanvasRoutes(r *mux.Router, n negroni.Negroni) {
 	r.Handle("", n.With(
 		negroni.WrapFunc(uh.Create),
 	)).Methods(http.MethodPost, http.MethodOptions).Name("create")
+	r.Handle("", n.With(
+		negroni.WrapFunc(uh.Find),
+	)).Methods(http.MethodGet, http.MethodOptions).Name("find")
 }
