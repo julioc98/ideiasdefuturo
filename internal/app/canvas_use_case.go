@@ -52,3 +52,18 @@ func (u *CanvasUseCase) GetByUserID(userID string) ([]domain.Canvas, error) {
 
 	return canvas, nil
 }
+
+// Get Get canvas.
+func (u *CanvasUseCase) Get(id uint, userID string) (*domain.Canvas, error) {
+	e := &domain.Canvas{
+		ID:     id,
+		UserID: userID,
+	}
+
+	canvas, err := u.repository.FindOne(e, "id", "user_id")
+	if err != nil {
+		return nil, ErrInvalid
+	}
+
+	return canvas, nil
+}
