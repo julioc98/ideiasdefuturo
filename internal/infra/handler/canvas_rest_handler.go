@@ -17,6 +17,7 @@ type canvasServicer interface {
 	Create(user *domain.Canvas) (*domain.Canvas, error)
 	GetByUserID(userID string) ([]domain.Canvas, error)
 	Get(id uint, userID string) (*domain.Canvas, error)
+	Delete(id uint, userID string) error
 }
 
 // CanvasRestHandler http handler.
@@ -116,6 +117,27 @@ func (uh *CanvasRestHandler) Find(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(res)
 }
 
+// Delete endpoint.
+func (uh *CanvasRestHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+
+	id, err := strconv.ParseUint(params["id"], 10, 32)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	err = uh.usecase.Delete(uint(id), uh.guard.GetUserID(r))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
 // SetCanvasRoutes mux configuration.
 func (uh *CanvasRestHandler) SetCanvasRoutes(r *mux.Router, n negroni.Negroni) {
 	r.Handle("", n.With(
@@ -127,4 +149,7 @@ func (uh *CanvasRestHandler) SetCanvasRoutes(r *mux.Router, n negroni.Negroni) {
 	r.Handle("", n.With(
 		negroni.WrapFunc(uh.Find),
 	)).Methods(http.MethodGet, http.MethodOptions).Name("find")
+	r.Handle("/{id:[0-9]+}", n.With(
+		negroni.WrapFunc(uh.Delete),
+	)).Methods(http.MethodDelete, http.MethodOptions).Name("delete")
 }

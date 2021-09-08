@@ -47,3 +47,12 @@ func (g *CanvasGorm) Find(query *domain.Canvas, args ...string) ([]domain.Canvas
 
 	return e, nil
 }
+
+// Remove canvas.
+func (g *CanvasGorm) Remove(query *domain.Canvas, userID string) error {
+	if dbc := g.db.Debug().Delete(&query); dbc.Error != nil {
+		return dbc.Error
+	}
+
+	return nil
+}

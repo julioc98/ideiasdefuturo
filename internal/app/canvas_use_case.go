@@ -8,6 +8,7 @@ import (
 type canvasStorager interface {
 	Store(user *domain.Canvas) (*domain.Canvas, error)
 	FindOne(query *domain.Canvas, args ...string) (*domain.Canvas, error)
+	Remove(query *domain.Canvas, userID string) error
 	Find(query *domain.Canvas, args ...string) ([]domain.Canvas, error)
 }
 
@@ -53,7 +54,7 @@ func (u *CanvasUseCase) GetByUserID(userID string) ([]domain.Canvas, error) {
 	return canvas, nil
 }
 
-// Get Get canvas.
+// Get canvas.
 func (u *CanvasUseCase) Get(id uint, userID string) (*domain.Canvas, error) {
 	e := &domain.Canvas{
 		ID:     id,
@@ -66,4 +67,19 @@ func (u *CanvasUseCase) Get(id uint, userID string) (*domain.Canvas, error) {
 	}
 
 	return canvas, nil
+}
+
+// Delete canvas.
+func (u *CanvasUseCase) Delete(id uint, userID string) error {
+	e := &domain.Canvas{
+		ID:     id,
+		UserID: userID,
+	}
+
+	err := u.repository.Remove(e, userID)
+	if err != nil {
+		return ErrInvalid
+	}
+
+	return nil
 }
