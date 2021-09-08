@@ -70,6 +70,8 @@ func (u *UserUseCase) SignUp(user *domain.User) (*domain.User, error) {
 		return nil, ErrOnSendMessage
 	}
 
+	newUser.Password = ""
+
 	return newUser, nil
 }
 

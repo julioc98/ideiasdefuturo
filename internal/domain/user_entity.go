@@ -13,7 +13,6 @@ type User struct {
 	Phone       string     `gorm:"index;not null" validate:"required" json:"whatsapp"`
 	Password    string     `gorm:"index;" validate:"required" json:"password,omitempty"`
 	Role        string     `gorm:"index;default:STUDENT" json:"role"`
-	Token       string     `gorm:"index;" json:"token"`
 	ActivatedAt *time.Time `gorm:"index" json:"activatedAt,omitempty"`
 	CreatedAt   time.Time  `json:"createdAt"`
 	UpdatedAt   time.Time  `json:"updatedAt,omitempty"`

@@ -32,8 +32,10 @@ func main() {
 	}
 
 	userRepo := repository.NeWUserGorm(db)
-
 	userUseCase := app.NewUserUseCase(userRepo, &krypto.Hash{}, &gateway.Auth{}, validator.New(), &gateway.Console{})
+
+	canvasRepo := repository.NeWCanvasGorm(db)
+	canvasUseCase := app.NewCanvasUseCase(canvasRepo, validator.New())
 
 	// go-guardian
 	keeper := jwt.StaticSecret{
@@ -53,6 +55,9 @@ func main() {
 
 	userHandler := handler.NewUserRestHandler(userUseCase, guard)
 	userHandler.SetUserRoutes(r.PathPrefix("/users").Subrouter(), *n)
+
+	canvasHandler := handler.NewCanvasRestHandler(canvasUseCase, guard)
+	canvasHandler.SetCanvasRoutes(r.PathPrefix("/canvas").Subrouter(), *n)
 
 	r.HandleFunc("/", handlerHi)
 	http.Handle("/", r)
@@ -85,7 +90,7 @@ func provideDB(dbURL string, migrate bool) (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to migrate database err: %w", err)
 	}
 
-	err = db.AutoMigrate(domain.User{})
+	err = db.AutoMigrate(domain.User{}, domain.Canvas{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to migrate database err: %w", err)
 	}
