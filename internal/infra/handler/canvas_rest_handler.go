@@ -65,8 +65,8 @@ func (uh *CanvasRestHandler) Create(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(res)
 }
 
-// Find endpoint.
-func (uh *CanvasRestHandler) Find(w http.ResponseWriter, r *http.Request) {
+// FindOne endpoint.
+func (uh *CanvasRestHandler) FindOne(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	id, err := strconv.ParseUint(params["id"], 10, 32)
@@ -95,8 +95,8 @@ func (uh *CanvasRestHandler) Find(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(res)
 }
 
-// FindOne endpoint.
-func (uh *CanvasRestHandler) FindOne(w http.ResponseWriter, r *http.Request) {
+// Find endpoint.
+func (uh *CanvasRestHandler) Find(w http.ResponseWriter, r *http.Request) {
 	canvas, err := uh.usecase.GetByUserID(uh.guard.GetUserID(r))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -121,10 +121,10 @@ func (uh *CanvasRestHandler) SetCanvasRoutes(r *mux.Router, n negroni.Negroni) {
 	r.Handle("", n.With(
 		negroni.WrapFunc(uh.Create),
 	)).Methods(http.MethodPost, http.MethodOptions).Name("create")
+	r.Handle("/{id:[0-9]+}", n.With(
+		negroni.WrapFunc(uh.FindOne),
+	)).Methods(http.MethodGet, http.MethodOptions).Name("findOne")
 	r.Handle("", n.With(
 		negroni.WrapFunc(uh.Find),
 	)).Methods(http.MethodGet, http.MethodOptions).Name("find")
-	r.Handle("/{id:[0-9]+}", n.With(
-		negroni.WrapFunc(uh.Find),
-	)).Methods(http.MethodGet, http.MethodOptions).Name("findOne")
 }
