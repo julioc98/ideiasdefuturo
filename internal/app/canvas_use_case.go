@@ -10,6 +10,7 @@ type canvasStorager interface {
 	FindOne(query *domain.Canvas, args ...string) (*domain.Canvas, error)
 	Remove(query *domain.Canvas, userID string) error
 	Find(query *domain.Canvas, args ...string) ([]domain.Canvas, error)
+	Update(query *domain.Canvas) error
 }
 
 // CanvasUseCase Canvas auth uses case.
@@ -79,6 +80,20 @@ func (u *CanvasUseCase) Delete(id uint, userID string) error {
 	err := u.repository.Remove(e, userID)
 	if err != nil {
 		return ErrInvalid
+	}
+
+	return nil
+}
+
+// Update Canvas.
+func (u *CanvasUseCase) Update(canvas *domain.Canvas) error {
+	if err := u.validate.Struct(canvas); err != nil {
+		return ErrInvalid
+	}
+
+	err := u.repository.Update(canvas)
+	if err != nil {
+		return ErrOnSave
 	}
 
 	return nil

@@ -56,3 +56,12 @@ func (g *CanvasGorm) Remove(query *domain.Canvas, userID string) error {
 
 	return nil
 }
+
+// Update canvas.
+func (g *CanvasGorm) Update(query *domain.Canvas) error {
+	if dbc := g.db.Debug().Model(&domain.Canvas{}).Where("id = ? AND user_id = ?", query.ID, query.UserID).Updates(query); dbc.Error != nil {
+		return dbc.Error
+	}
+
+	return nil
+}
